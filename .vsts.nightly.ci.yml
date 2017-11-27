@@ -17,7 +17,7 @@ steps:
     $vers = & $env:UserProfile\.nuget\packages\nerdbank.gitversioning\2.0.41\tools\Get-Version.ps1
     $ver = $vers.SimpleVersion
         
-    # Update appxmanifests
+    # Update appxmanifests. These must be done before build.
     $doc = Get-Content ".\PackageExplorer.Package\package.appxmanifest"    
     $doc | % { $_.Replace("3.25.0", "$ver") } | Set-Content ".\PackageExplorer.Package\package.appxmanifest"
     
@@ -29,11 +29,18 @@ steps:
     msbuild .\PackageExplorer.Package.Nightly\PackageExplorer.Package.Nightly.jsproj /m /p:Configuration=$(BuildConfiguration) /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\Nightly\" /p:AppxBundle=Always
     msbuild .\PackageExplorer.Package\PackageExplorer.Package.jsproj /m /p:Configuration=$(BuildConfiguration) /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\Store\" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload 
     
+    # Update versions
     $doc = Get-Content ".\Build\ci_badge.svg"    
     $doc | % { $_.Replace("ver_number", "$ver.0") } | Set-Content "$(Build.ArtifactStagingDirectory)\Nightly\version_badge.svg"
     
     $doc = Get-Content ".\Build\store_badge.svg"    
     $doc | % { $_.Replace("ver_number", "$ver.0") } | Set-Content "$(Build.ArtifactStagingDirectory)\Store\version_badge.svg"
+    
+    # Choco uses MajorMinorVersion
+    $vers = & $env:UserProfile\.nuget\packages\nerdbank.gitversioning\2.0.41\tools\Get-Version.ps1
+    $ver = $vers.MajorMinorVersion
+    $doc = Get-Content ".\PackageExplorer\NuGetPackageExplorer.nuspec"    
+    $doc | % { $_.Replace("$version$", "$ver") } | Set-Content ".\PackageExplorer\NuGetPackageExplorer.nuspec"
         
   displayName: Build Nightly
   
@@ -44,6 +51,17 @@ steps:
     rootFolder: PackageExplorer/bin/$(BuildConfiguration)
     archiveFile: $(Build.ArtifactStagingDirectory)\Zip\PackageExplorer.zip
     includeRootFolder: false
+    
+- task: ChocolateyPackAndPush@1
+  displayName: Pack Chocolatey
+  inputs:
+    dropFolderPath: $(System.DefaultWorkingDirectory)\PackageExplorer
+    nuspecFileName: NuGetPackageExplorer.nuspec
+    chocoPackOnly: true
+    
+- powershell: |
+    # Move Choco Package to the out directory
+    move $(System.DefaultWorkingDirectory)\PackageExplorer\*.nupkg $(Build.ArtifactStagingDirectory)\Nightly
 
 - task: PowerShell@2
   displayName: Authenticode Sign Nightly artifacts
