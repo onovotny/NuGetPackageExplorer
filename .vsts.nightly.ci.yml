@@ -36,6 +36,14 @@ steps:
     $doc | % { $_.Replace("ver_number", "$ver.0") } | Set-Content "$(Build.ArtifactStagingDirectory)\Store\version_badge.svg"
         
   displayName: Build Nightly
+  
+- task: ArchiveFiles@1
+  displayName: Zip PackageExplorer files
+  inputs:
+    archiveType: zip
+    rootFolder: PackageExplorer/bin/$(BuildConfiguration)
+    archiveFile: $(Build.ArtifactStagingDirectory)\Zip\PackageExplorer.zip
+    includeRootFolder: false
 
 - task: PowerShell@2
   displayName: Authenticode Sign Nightly artifacts
@@ -46,12 +54,28 @@ steps:
     SignClientSecret: $(SignClientSecret)
     ArtifactDirectory: $(Build.ArtifactStagingDirectory)\Nightly
 
+- task: PowerShell@2
+  displayName: Authenticode Sign Zip artifacts
+  inputs:
+    filePath: Build/Sign-Zip.ps1
+  env:
+    SignClientUser: $(SignClientUser)
+    SignClientSecret: $(SignClientSecret)
+    ArtifactDirectory: $(Build.ArtifactStagingDirectory)\Zip   
+
 - task: PublishBuildArtifacts@1
   displayName: Publish Nightly Artifact
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)\Nightly
     artifactType: container
     artifactName: Nightly
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish Zip Artifact
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)\Zip
+    artifactType: container
+    artifactName: Zip
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Store Artifacts

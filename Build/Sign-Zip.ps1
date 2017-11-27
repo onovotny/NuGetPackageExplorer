@@ -22,14 +22,14 @@ $fileList = "$currentDirectory\filelist.txt"
 
 $appPath = "$currentDirectory\..\packages\SignClient\tools\netcoreapp2.0\SignClient.dll"
 
-$appxs = gci $Env:ArtifactDirectory\*.appxbundle -recurse | Select -ExpandProperty FullName
+$appxs = gci $Env:ArtifactDirectory\*.zip | Select -ExpandProperty FullName
 
-foreach ($appx in $appxs){
-	Write-Host "Submitting $appx for signing"
+foreach ($zip in $zips){
+	Write-Host "Submitting $zip for signing"
 
 	dotnet $appPath 'sign' -c $appSettings -i $appx -f $fileList -r $Env:SignClientUser -s $Env:SignClientSecret -n 'NuGet Package Explorer' -d 'NuGet Package Explorer' -u 'https://github.com/NuGetPackageExplorer/NuGetPackageExplorer' 
 
-	Write-Host "Finished signing $appx"
+	Write-Host "Finished signing $zip"
 }
 
-Write-Host "Sign-package complete"
+Write-Host "Sign-Zip complete"
