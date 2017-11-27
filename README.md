@@ -14,7 +14,7 @@ the release version with no interference.
 
 | Build Number | Link |
 | ------------ | ---- |
-| ![Nightly build number](https://nugetpackageexplorer.blob.core.windows.net/nightly/version_badge.svg)| [Download](https://nugetpackageexplorer.blob.core.windows.net/nightly/PackageExplorer.Package.Nightly.appxbundle)
+| ![Nightly build number](https://nugetpackageexplorer.blob.core.windows.net/nightly/version_badge.svg?v=1)| [Download](https://nugetpackageexplorer.blob.core.windows.net/nightly/PackageExplorer.Package.Nightly.appxbundle)
 
 
 ### Microsoft Store (recommended, Windows 10 Anniversary Update needed)
