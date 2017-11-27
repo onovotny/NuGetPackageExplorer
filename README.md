@@ -3,8 +3,6 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/nhowjp0e1w0225v7/branch/master?svg=true)](https://ci.appveyor.com/project/NuGetPackageExplorer/nugetpackageexplorer/branch/master)
 [![Twitter Follow](https://img.shields.io/twitter/follow/NuGetPE.svg?style=social?maxAge=2592000)](https://twitter.com/NuGetPE)
 [![Join the chat at https://gitter.im/NuGetPackageExplorer/NuGetPackageExplorer](https://badges.gitter.im/NuGetPackageExplorer/NuGetPackageExplorer.svg)](https://gitter.im/NuGetPackageExplorer/NuGetPackageExplorer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Chocolatey](https://img.shields.io/chocolatey/v/NugetPackageExplorer.svg?maxAge=259200)](https://chocolatey.org/packages/NugetPackageExplorer)
-[![Rager Releases](http://rager.io/badge.svg?url=https%3A%2F%2Fgithub.com%2FNuGetPackageExplorer%2FNuGetPackageExplorer)](http://rager.io/projects/search?badge=1&query=https://github.com/NuGetPackageExplorer/NuGetPackageExplorer)
 
 ## How to install
 You could install with the [Windows 10 Store](https://www.microsoft.com/store/apps/9wzdncrdmdm3) or [Chocolatey](https://chocolatey.org/packages/NugetPackageExplorer). The Microsoft Store is the preferred version for Windows 10 Anniversary Update and later.
