@@ -52,7 +52,7 @@ steps:
     archiveFile: $(Build.ArtifactStagingDirectory)\Zip\PackageExplorer.zip
     includeRootFolder: false
     
-- task: ChocolateyPackAndPush@1
+- task: ChocolateyPackAndPush@1.1.3
   displayName: Pack Chocolatey
   inputs:
     dropFolderPath: $(System.DefaultWorkingDirectory)\PackageExplorer
