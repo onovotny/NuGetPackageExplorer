@@ -1,0 +1,47 @@
+queue: "Hosted VS2017"
+variables: 
+  BuildConfiguration: Release
+steps:
+- task: BatchScript@1
+  inputs:
+    filename: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\Common7\\Tools\\VsDevCmd.bat"
+    arguments: -no_logo
+    modifyEnvironment: true
+  displayName: Setup Environment Variables
+
+- powershell: |
+    # restore 
+    msbuild /t:restore PackageExplorer\PackageExplorer.csproj
+    
+    # version
+    $vers = & $env:UserProfile\.nuget\packages\nerdbank.gitversioning\2.0.41\tools\Get-Version.ps1
+    $nugetVer = $vers.Version
+        
+    # Update appxmanifests
+    $doc = Get-Content ".\PackageExplorer.Package\package.appxmanifest"    
+    $doc | % { $_.Replace("3.25.0.0", "$nugetVer") } | Set-Content ".\PackageExplorer.Package\package.appxmanifest"
+    
+    $doc = Get-Content ".\PackageExplorer.Package.Nightly\package.appxmanifest"    
+    $doc | % { $_.Replace("3.25.0.0", "$nugetVer") } | Set-Content ".\PackageExplorer.Package.Nightly\package.appxmanifest"
+    
+    # Build PackageExplorer
+    msbuild .\PackageExplorer\PackageExplorer.csproj /m /p:Configuration=$(BuildConfiguration) 
+    msbuild .\PackageExplorer.Package.Nightly\PackageExplorer.Package.Nightly.jsproj /m /p:Configuration=$(BuildConfiguration) /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\Nightly\" /p:AppxBundle=Always    
+        
+  displayName: Build Nightly
+
+- task: PowerShell@2
+  displayName: Authenticode Sign Nightly artifacts
+  inputs:
+    filePath: Build/Sign-Package.ps1
+  env:
+    SignClientUser: $(SignClientUser)
+    SignClientSecret: $(SignClientSecret)
+    ArtifactDirectory: $(Build.ArtifactStagingDirectory)\Nightly
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish SignClient Artifact
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)\Nightly
+    artifactType: container
+    artifactName: Nightly

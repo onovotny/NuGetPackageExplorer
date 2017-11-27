@@ -1,0 +1,4 @@
+**/NuGetPackageExplorer.*
+**/CodeExecutor.*
+**/PackageViewModel.*
+**/Core.*
