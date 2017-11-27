@@ -15,14 +15,14 @@ steps:
     
     # version
     $vers = & $env:UserProfile\.nuget\packages\nerdbank.gitversioning\2.0.41\tools\Get-Version.ps1
-    $nugetVer = $vers.Version
+    $ver = $vers.SimpleVersion
         
     # Update appxmanifests
     $doc = Get-Content ".\PackageExplorer.Package\package.appxmanifest"    
-    $doc | % { $_.Replace("3.25.0.0", "$nugetVer") } | Set-Content ".\PackageExplorer.Package\package.appxmanifest"
+    $doc | % { $_.Replace("3.25.0", "$ver") } | Set-Content ".\PackageExplorer.Package\package.appxmanifest"
     
     $doc = Get-Content ".\PackageExplorer.Package.Nightly\package.appxmanifest"    
-    $doc | % { $_.Replace("3.25.0.0", "$nugetVer") } | Set-Content ".\PackageExplorer.Package.Nightly\package.appxmanifest"
+    $doc | % { $_.Replace("3.25.0", "$ver") } | Set-Content ".\PackageExplorer.Package.Nightly\package.appxmanifest"
     
     # Build PackageExplorer
     msbuild .\PackageExplorer\PackageExplorer.csproj /m /p:Configuration=$(BuildConfiguration) 
