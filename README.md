@@ -7,9 +7,17 @@
 [![Rager Releases](http://rager.io/badge.svg?url=https%3A%2F%2Fgithub.com%2FNuGetPackageExplorer%2FNuGetPackageExplorer)](http://rager.io/projects/search?badge=1&query=https://github.com/NuGetPackageExplorer/NuGetPackageExplorer)
 
 ## How to install
-You could install with the [Windows 10 Store](https://www.microsoft.com/store/apps/9wzdncrdmdm3) or [Chocolatey](https://chocolatey.org/packages/NugetPackageExplorer). The Windows Store is the preferred version for Windows 10 Anniversary Update and later.
+You could install with the [Windows 10 Store](https://www.microsoft.com/store/apps/9wzdncrdmdm3) or [Chocolatey](https://chocolatey.org/packages/NugetPackageExplorer). The Microsoft Store is the preferred version for Windows 10 Anniversary Update and later.
 
-### Windows Store (recommended, Windows 10 Anniversary Update needed)
+There also a nightly build available for direct install on Windows 10 Anniversary Update and higher. The nightly build installs alongside
+the release version with no interference.
+
+| Build Number | Link |
+| ------------ | ---- |
+| ![Nightly build number](https://nugetpackageexplorer.blob.core.windows.net/nightly/version_badge.svg)| [Download](https://nugetpackageexplorer.blob.core.windows.net/nightly/PackageExplorer.Package.Nightly.appxbundle)
+
+
+### Microsoft Store (recommended, Windows 10 Anniversary Update needed)
 <a href="https://www.microsoft.com/store/apps/9wzdncrdmdm3?ocid=badge"><img height="104" width="288" src="https://assets.windowsphone.com/f2f77ec7-9ba9-4850-9ebe-77e366d08adc/English_Get_it_Win_10_InvariantCulture_Default.png" alt="Get it on Windows 10"></a>
 
 ### Chocolatey
